@@ -71,6 +71,7 @@ function IDCard() {
             {profileImage ? (
               <img
                 src={profileImage}
+                alt="Profile"
                 className="w-[23%] grid content-center rounded-full h-[23%] bottom-[17%] right-[19%] absolute"
               />
             ) : (
