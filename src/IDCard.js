@@ -1,6 +1,20 @@
 import React, { useState } from "react";
 import Img from "./background.jpg";
-import html2canvas from "html2canvas";
+import { toJpeg } from 'html-to-image';
+
+const bgImageStyle = {
+  backgroundImage: `url(${Img})`,
+  backgroundSize: "cover",
+  width: "500px",
+  height: "500px",
+};
+
+const bgImageMobileStyle = {
+  backgroundImage: `url(${Img})`,
+  backgroundSize: "cover",
+  width: "320px",
+  height: "320px",
+};
 
 function IDCard() {
   const [profileImage, setProfileImage] = useState(null);
@@ -27,43 +41,48 @@ function IDCard() {
     setSchoolName(event.target.value);
   };
 
-  const handleDownload = async () => {
-    const element = captureRef.current;
-
+  const handleDownload = () => {
     try {
-      // Use html2canvas to capture the element
-      const canvas = await html2canvas(element, { scale: 2 });
-
-      // Convert the canvas to a data URL
-      const dataUrl = canvas.toDataURL("image/png");
-
-      // Create a link to download the image
-      const link = document.createElement("a");
-      link.href = dataUrl;
-      link.download = "Samagam2025.png";
-      link.click();
-    } catch (error) {
-      console.error("Failed to capture and download the image:", error);
+        const node = document.getElementById('alumniId')?.children[0];
+        if (node) {
+            toJpeg(node, { quality: 0.95 })
+                .then(function (dataUrl) {
+                    var link = document.createElement('a');
+                    link.download = 'Alumni_Id.jpeg';
+                    link.href = dataUrl;
+                    link.click();
+                });
+        }
     }
-  };
+    catch (error) {
+    }
+}
+
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 500);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 500);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <div className="IDCard h-full grid grid-cols-1 gap-4 place-content-center">
       {/* ID Card UI */}
-      <div className="grid place-content-center">
+      <div className="grid place-content-center" id="alumniId">
         <div
           ref={captureRef}
           className="relative"
-          style={{
-            backgroundImage: `url(${Img})`,
-            backgroundSize: "cover",
-            width: "500px",
-            height: "500px",
-          }}
+          style={isMobile ? bgImageMobileStyle : bgImageStyle}
         >
           <div className="canditate-name">
-            <div className="w-fit grid gap-0 content-center rounded-full h-[10%] bottom-[24%] left-[22%] absolute">
-              <div className="font-bold p-0 m-0">{name}</div>
+            <div className="w-fit grid gap-0 content-center rounded-full h-[10%] bottom-[23%] left-[22%] absolute">
+              <div className="font-bold p-0 m-0 leading-[0.8rem]">{name}</div>
               <div className="text-xs">{schoolName}</div>
             </div>
           </div>
