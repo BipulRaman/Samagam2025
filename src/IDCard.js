@@ -5,8 +5,8 @@ import { toJpeg } from 'html-to-image';
 const bgImageStyle = {
   backgroundImage: `url(${Img})`,
   backgroundSize: "cover",
-  width: "500px",
-  height: "500px",
+  width: "400px",
+  height: "400px",
 };
 
 const bgImageMobileStyle = {
