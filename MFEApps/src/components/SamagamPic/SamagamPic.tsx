@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { toJpeg } from 'html-to-image';
 import styles from "./SamagamPic.module.css";
-
-const imageUrl = "/images/BG.png";
+import { Config } from "../../config";
 
 export const SamagamPic = () => {
   const [profileImage, setProfileImage] = useState<string | ArrayBuffer | null>(null);
@@ -11,16 +10,16 @@ export const SamagamPic = () => {
   const captureRef = React.createRef<HTMLDivElement>();
 
   function handleImageChange(event: React.ChangeEvent<HTMLInputElement>) {
-        const files = event.target.files;
-        if (files && files[0]) {
-            const file = files[0];
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setProfileImage(reader.result); // Set image to state
-            };
-            reader.readAsDataURL(file);
-        }
+    const files = event.target.files;
+    if (files && files[0]) {
+      const file = files[0];
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfileImage(reader.result); // Set image to state
+      };
+      reader.readAsDataURL(file);
     }
+  }
 
   const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
@@ -52,7 +51,7 @@ export const SamagamPic = () => {
       <div className={styles.idCardContainer}>
         {/* ID Card UI */}
         <div className={styles.idCard} id="alumniId">
-          <div ref={captureRef} className={styles.idCardContent} style={{ backgroundImage: `url(${imageUrl})` }}>
+          <div ref={captureRef} className={styles.idCardContent} style={{ backgroundImage: `url(${Config.SamagamBGImage})` }}>
             <div className={styles.candidateName}>
               <div className={styles.name}>{name}</div>
               <div className={styles.schoolName}>{schoolName}</div>
