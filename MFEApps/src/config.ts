@@ -4,4 +4,5 @@ export const Config = {
   AlumniSearchAPI: "https://json.jnvsitamarhi.org/alumni.json",
   AlumniFormAPI: "https://docs.google.com/forms/d/e/1FAIpQLSdXYLRuqPdrKCgxSyAv-6GgrxUqbVtdMwgMLFOj_wMyIvXkMg/formResponse",
   SamagamDataAPI: "https://json.bipul.in/sam25.json",
+  MedicoDataAPI: "https://json.bipul.in/medico.json",
 };
