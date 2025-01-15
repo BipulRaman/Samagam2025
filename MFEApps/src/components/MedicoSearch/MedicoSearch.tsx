@@ -76,7 +76,9 @@ export const MedicoSearch = () => {
     if (value === "" || value.length < 3) {
       setSearchResult([]);
     } else {
-      var result = alumni.filter((alumnus: any) => JSON.stringify(alumnus).toLowerCase().includes(value.toLowerCase()));
+      var result = alumni.filter((alumnus: any) => 
+        JSON.stringify(alumnus).toLowerCase().split(/\W+/).some(word => word.startsWith(value.toLowerCase()))
+      );
       setSearchResult(result);
     }
   };
