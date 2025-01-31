@@ -46,11 +46,29 @@ export const SamagamInvite = () => {
     const handlePrint = () => {
         const printContents = document.getElementById('invite')?.innerHTML;
         if (printContents) {
-            const originalContents = document.body.innerHTML;
-            document.body.innerHTML = printContents;
-            window.print();
-            document.body.innerHTML = originalContents;
-            window.location.reload();
+            if (window.innerWidth <= 768) { // Check if the device is mobile
+                const printWindow = window.open('', '', 'height=600,width=720');
+                if (printWindow) {
+                    printWindow.document.write('<html><head><title>Samagam Invitation</title>');
+                    printWindow.document.write('</head><body >');
+                    printWindow.document.write(printContents);
+                    printWindow.document.write('</body></html>');
+                    printWindow.document.close();
+                    printWindow.print();
+                } else {
+                    console.error('Failed to open print window.');
+                }
+            } else {
+                if (printContents) {
+                    const originalContents = document.body.innerHTML;
+                    document.body.innerHTML = printContents;
+                    window.print();
+                    document.body.innerHTML = originalContents;
+                    window.location.reload();
+                } else {
+                    console.error('Element with id "invite" not found.');
+                }
+            }
         } else {
             console.error('Element with id "invite" not found.');
         }
