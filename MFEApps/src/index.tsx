@@ -3,10 +3,12 @@ import * as ReactDOM from "react-dom/client";
 import { SamagamSearch } from "./components/SamagamSearch/SamagamSearch";
 import { SamagamPic } from "./components/SamagamPic/SamagamPic";
 import { MedicoSearch } from "./components/MedicoSearch/MedicoSearch";
+import { SamagamInvite } from "./components/SamagamInvite/SamagamInvite";
 
 const samagamSearchElementId = "samagam-search";
 const samagamPicElementId = "samagam-pic";
 const medicoSearchElementId = "medico-search";
+const samagamInviteElementId = "samagam-invite";
 
 try {
   const samagamSearchRoot = ReactDOM.createRoot(document.getElementById(samagamSearchElementId) as HTMLElement);
@@ -42,4 +44,16 @@ try {
 }
 catch (error) {
   console.log("Element with id " + medicoSearchElementId + " is not available on this page");
+}
+
+try {
+  const samagamInviteRoot = ReactDOM.createRoot(document.getElementById(samagamInviteElementId) as HTMLElement);
+  samagamInviteRoot.render(
+    <React.StrictMode>
+      <SamagamInvite />
+    </React.StrictMode>
+  );
+}
+catch (error) {
+  console.log("Element with id " + samagamInviteElementId + " is not available on this page");
 }
