@@ -32,6 +32,14 @@ export const SamagamInvite = () => {
             template = template.replace('{{LINE3}}', line3);
             template = template.replace('{{GENDER}}', gender);
 
+            const date = new Date();
+            const formattedDate = date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+            });
+            template = template.replace('{{DATE}}', formattedDate);
+
             const element = document.getElementById('invite');
             if (element) {
                 element.innerHTML = template;
