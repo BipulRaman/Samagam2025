@@ -89,6 +89,8 @@ export const SamagamInvite = () => {
                         >
                             <FormControlLabel value="Sir" control={<Radio />} label="Male" />
                             <FormControlLabel value="Madam" control={<Radio />} label="Female" />
+                            <FormControlLabel value="Sir/Madam" control={<Radio />} label="Both" />
+
                         </RadioGroup>
                     </FormControl>
                     <TextField style={inputStyle} id="name" label="Recipient's Name" variant="standard" onChange={(e) => setName(e.target.value)} />
