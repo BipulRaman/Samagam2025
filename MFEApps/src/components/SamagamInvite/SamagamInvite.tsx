@@ -18,33 +18,35 @@ export const SamagamInvite = () => {
     const [line3, setLine3] = useState('');
     const [gender, setGender] = useState('');
 
-    const validateInput = () => {
-        return name && gender;
-    }
+    const validateInput = () => name && gender;
 
     useEffect(() => {
         const updateInviteContent = async () => {
-            const response = await fetch(Config.SamagamInviteTemplate);
-            let template = await response.text();
-            template = template.replace('{{NAME}}', name);
-            template = template.replace('{{LINE1}}', line1);
-            template = template.replace('{{LINE2}}', line2);
-            template = template.replace('{{LINE3}}', line3);
-            template = template.replace('{{GENDER}}', gender);
+            try {
+                const response = await fetch(Config.SamagamInviteTemplate);
+                let template = await response.text();
+                const date = new Date().toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                });
 
-            const date = new Date();
-            const formattedDate = date.toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-            });
-            template = template.replace('{{DATE}}', formattedDate);
+                template = template
+                    .replace('{{NAME}}', name)
+                    .replace('{{LINE1}}', line1)
+                    .replace('{{LINE2}}', line2)
+                    .replace('{{LINE3}}', line3)
+                    .replace('{{GENDER}}', gender)
+                    .replace('{{DATE}}', date);
 
-            const element = document.getElementById('invite');
-            if (element) {
-                element.innerHTML = template;
-            } else {
-                console.error('Element with id "invite" not found.');
+                const element = document.getElementById('invite');
+                if (element) {
+                    element.innerHTML = template;
+                } else {
+                    console.error('Element with id "invite" not found.');
+                }
+            } catch (error) {
+                console.error('Failed to fetch template:', error);
             }
         };
 
@@ -54,68 +56,64 @@ export const SamagamInvite = () => {
     const handlePrint = () => {
         const printContents = document.getElementById('invite')?.innerHTML;
         if (printContents) {
-            if (window.innerWidth <= 768) { // Check if the device is mobile
-                const printWindow = window.open('', '', 'height=600,width=720');
-                if (printWindow) {
-                    printWindow.document.write('<html><head><title>Samagam Invitation</title>');
-                    printWindow.document.write('</head><body >');
-                    printWindow.document.write(printContents);
-                    printWindow.document.write('</body></html>');
-                    printWindow.document.close();
-                    printWindow.print();
-                } else {
-                    console.error('Failed to open print window.');
-                }
+            const iframe = document.createElement('iframe');
+            iframe.style.position = 'absolute';
+            iframe.style.width = '0';
+            iframe.style.height = '0';
+            iframe.style.border = 'none';
+            document.body.appendChild(iframe);
+
+            const doc = iframe.contentWindow?.document;
+            if (doc) {
+                doc.open();
+                doc.write('<html><head><title>Samagam Invitation</title></head><body>');
+                doc.write(printContents);
+                doc.write('</body></html>');
+                doc.close();
+
+                iframe.contentWindow?.focus();
+                iframe.contentWindow?.print();
             } else {
-                if (printContents) {
-                    const originalContents = document.body.innerHTML;
-                    document.body.innerHTML = printContents;
-                    window.print();
-                    document.body.innerHTML = originalContents;
-                    window.location.reload();
-                } else {
-                    console.error('Element with id "invite" not found.');
-                }
+                console.error('Failed to access iframe document.');
             }
+
+            document.body.removeChild(iframe);
         } else {
             console.error('Element with id "invite" not found.');
         }
     };
 
     return (
-        <>
-            <div>
-                <Stack spacing={2} direction={'column'}>
-                    <FormControl>
-                        <FormLabel id="gender">Gender</FormLabel>
-                        <RadioGroup
-                            row
-                            aria-labelledby="gender"
-                            name="gender"
-                            value={gender}
-                            onChange={(e) => setGender(e.target.value)}
-                        >
-                            <FormControlLabel value="Sir" control={<Radio />} label="Male" />
-                            <FormControlLabel value="Madam" control={<Radio />} label="Female" />
-                            <FormControlLabel value="Sir/Madam" control={<Radio />} label="Both" />
-
-                        </RadioGroup>
-                    </FormControl>
-                    <TextField style={inputStyle} id="name" label="Recipient's Name" variant="standard" onChange={(e) => setName(e.target.value)} />
-                    <TextField style={inputStyle} id="line1" label="Line 1" variant="standard" onChange={(e) => setLine1(e.target.value)} />
-                    <TextField style={inputStyle} id="line2" label="Line 2" variant="standard" onChange={(e) => setLine2(e.target.value)} />
-                    <TextField style={inputStyle} id="line3" label="Line 3" variant="standard" onChange={(e) => setLine3(e.target.value)} />
-                    <Button
-                        style={buttonStyle}
-                        variant="contained"
-                        onClick={handlePrint}
-                        disabled={!validateInput()}
+        <div>
+            <Stack spacing={2} direction="column">
+                <FormControl>
+                    <FormLabel id="gender">Gender</FormLabel>
+                    <RadioGroup
+                        row
+                        aria-labelledby="gender"
+                        name="gender"
+                        value={gender}
+                        onChange={(e) => setGender(e.target.value)}
                     >
-                        Download
-                    </Button>
-                </Stack>
-                <div hidden={true} id='invite' style={{ width: '602px' }}></div>
-            </div>
-        </>
+                        <FormControlLabel value="Sir" control={<Radio />} label="Male" />
+                        <FormControlLabel value="Madam" control={<Radio />} label="Female" />
+                        <FormControlLabel value="Sir/Madam" control={<Radio />} label="Both" />
+                    </RadioGroup>
+                </FormControl>
+                <TextField style={inputStyle} id="name" label="Recipient's Name" variant="standard" onChange={(e) => setName(e.target.value)} />
+                <TextField style={inputStyle} id="line1" label="Line 1" variant="standard" onChange={(e) => setLine1(e.target.value)} />
+                <TextField style={inputStyle} id="line2" label="Line 2" variant="standard" onChange={(e) => setLine2(e.target.value)} />
+                <TextField style={inputStyle} id="line3" label="Line 3" variant="standard" onChange={(e) => setLine3(e.target.value)} />
+                <Button
+                    style={buttonStyle}
+                    variant="contained"
+                    onClick={handlePrint}
+                    disabled={!validateInput()}
+                >
+                    Download
+                </Button>
+            </Stack>
+            <div hidden id="invite" style={{ width: '602px' }}></div>
+        </div>
     );
 };
