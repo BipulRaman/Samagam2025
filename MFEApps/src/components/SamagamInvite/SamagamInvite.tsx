@@ -7,7 +7,7 @@ const inputStyle: React.CSSProperties = {
 };
 
 const buttonStyle: React.CSSProperties = {
-    width: '100px',
+    width: '110px',
     marginTop: '30px',
 };
 
