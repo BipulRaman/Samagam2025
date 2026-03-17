@@ -169,15 +169,10 @@ export function SamagamPic() {
 
           {/* ── Header ── */}
           <div style={{ textAlign: 'center', marginBottom: 22 }}>
-            <h2 style={{
-              fontSize: '1.4rem', fontWeight: 800, margin: '0 0 4px',
-              color: '#7b1530',
-              letterSpacing: '-0.01em',
-            }}>
-              Samagam DP Generator
-            </h2>
-            <p style={{ color: '#999', fontSize: '0.82rem', fontWeight: 500, margin: 0 }}>
-              बिहार नवोदयन समागम 2026 — Create your profile picture
+            <p style={{ color: '#7b1530', fontSize: '1.1rem', fontWeight: 700, margin: 0 }}>
+              बिहार नवोदयन समागम 2026
+              <br />
+              <span style={{ fontSize: '0.85rem', fontWeight: 500, color: '#999' }}>Create your profile picture</span>
             </p>
           </div>
 
