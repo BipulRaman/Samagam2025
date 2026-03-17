@@ -24,6 +24,31 @@ function getCroppedImg(src: string, crop: Area): Promise<string> {
   })
 }
 
+// Normalize image orientation (fixes stretched/rotated photos on mobile)
+function normalizeImage(file: File): Promise<string> {
+  return new Promise((resolve) => {
+    const url = URL.createObjectURL(file)
+    const img = new Image()
+    img.onload = () => {
+      const canvas = document.createElement('canvas')
+      canvas.width = img.naturalWidth
+      canvas.height = img.naturalHeight
+      const ctx = canvas.getContext('2d')!
+      ctx.drawImage(img, 0, 0)
+      URL.revokeObjectURL(url)
+      resolve(canvas.toDataURL('image/jpeg', 0.92))
+    }
+    img.onerror = () => {
+      URL.revokeObjectURL(url)
+      // Fallback to FileReader
+      const reader = new FileReader()
+      reader.onload = () => resolve(reader.result as string)
+      reader.readAsDataURL(file)
+    }
+    img.src = url
+  })
+}
+
 export function SamagamPic() {
   const [name, setName] = useState('')
   const [jnv, setJnv] = useState('')
@@ -92,10 +117,10 @@ export function SamagamPic() {
     }
   }
 
-  // ── Crowd silhouette as inline SVG data URI ──
-  const crowdSvg = `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 60"><g fill="rgba(0,0,0,0.35)"><ellipse cx="30" cy="50" rx="14" ry="10"/><ellipse cx="30" cy="36" rx="8" ry="8"/><ellipse cx="70" cy="50" rx="14" ry="10"/><ellipse cx="70" cy="34" rx="8" ry="8"/><ellipse cx="110" cy="52" rx="14" ry="10"/><ellipse cx="110" cy="38" rx="8" ry="8"/><ellipse cx="150" cy="48" rx="14" ry="10"/><ellipse cx="150" cy="34" rx="8" ry="8"/><ellipse cx="190" cy="50" rx="14" ry="10"/><ellipse cx="190" cy="36" rx="8" ry="8"/><ellipse cx="230" cy="52" rx="14" ry="10"/><ellipse cx="230" cy="38" rx="8" ry="8"/><ellipse cx="270" cy="48" rx="14" ry="10"/><ellipse cx="270" cy="34" rx="8" ry="8"/><ellipse cx="310" cy="50" rx="14" ry="10"/><ellipse cx="310" cy="36" rx="8" ry="8"/><ellipse cx="350" cy="52" rx="14" ry="10"/><ellipse cx="350" cy="38" rx="8" ry="8"/><ellipse cx="390" cy="48" rx="14" ry="10"/><ellipse cx="390" cy="34" rx="8" ry="8"/><ellipse cx="430" cy="50" rx="14" ry="10"/><ellipse cx="430" cy="36" rx="8" ry="8"/><ellipse cx="470" cy="52" rx="14" ry="10"/><ellipse cx="470" cy="38" rx="8" ry="8"/><ellipse cx="510" cy="48" rx="14" ry="10"/><ellipse cx="510" cy="34" rx="8" ry="8"/><ellipse cx="550" cy="50" rx="14" ry="10"/><ellipse cx="550" cy="36" rx="8" ry="8"/><ellipse cx="590" cy="50" rx="14" ry="10"/><ellipse cx="590" cy="36" rx="8" ry="8"/></g></svg>`)}`
-
   const innerSize = DP_SIZE - BORDER * 2
+
+  // Ornamental ring SVG (decorative dots around perimeter)
+  const ornamentRingSvg = `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 568 568"><circle cx="284" cy="284" r="278" fill="none" stroke="rgba(255,215,0,0.25)" stroke-width="1"/><circle cx="284" cy="284" r="268" fill="none" stroke="rgba(255,215,0,0.12)" stroke-width="0.5"/>${Array.from({length:36},(_,i)=>{const a=i*10*Math.PI/180;return`<circle cx="${284+273*Math.cos(a)}" cy="${284+273*Math.sin(a)}" r="2.5" fill="rgba(255,215,0,0.3)"/>`}).join('')}</svg>`)}`
 
   // Inject keyframe styles once
   useEffect(() => {
@@ -114,14 +139,14 @@ export function SamagamPic() {
         to { opacity: 1; transform: translateY(0); }
       }
       .sdp-input { transition: all 0.25s ease !important; }
-      .sdp-input:focus { border-color: #43a047 !important; box-shadow: 0 0 0 3px rgba(67,160,71,0.15) !important; }
-      .sdp-input::placeholder { color: #aaa !important; }
+      .sdp-input:focus { border-color: #8b1a2b !important; box-shadow: 0 0 0 3px rgba(139,26,43,0.1) !important; }
+      .sdp-input::placeholder { color: #bbb !important; }
       .sdp-btn-upload { transition: all 0.25s ease !important; }
-      .sdp-btn-upload:hover { background: #e8f5e9 !important; border-color: #43a047 !important; color: #2e7d32 !important; }
+      .sdp-btn-upload:hover { background: #fdf2f4 !important; border-color: #8b1a2b !important; color: #8b1a2b !important; }
       .sdp-btn-download { transition: all 0.25s ease !important; }
-      .sdp-btn-download:hover { transform: translateY(-2px) !important; box-shadow: 0 6px 20px rgba(46,125,50,0.35) !important; }
+      .sdp-btn-download:hover { transform: translateY(-2px) !important; box-shadow: 0 8px 24px rgba(139,26,43,0.35) !important; }
       .sdp-btn-download:active { transform: translateY(0) !important; }
-      .sdp-recrop:hover { border-color: #43a047 !important; color: #2e7d32 !important; background: #f1f8e9 !important; }
+      .sdp-recrop:hover { border-color: #8b1a2b !important; color: #8b1a2b !important; background: #fdf2f4 !important; }
     `
     document.head.appendChild(style)
   }, [])
@@ -146,12 +171,12 @@ export function SamagamPic() {
           <div style={{ textAlign: 'center', marginBottom: 22 }}>
             <h2 style={{
               fontSize: '1.4rem', fontWeight: 800, margin: '0 0 4px',
-              color: '#1b5e20',
+              color: '#7b1530',
               letterSpacing: '-0.01em',
             }}>
-              🎭 Samagam DP Generator
+              Samagam DP Generator
             </h2>
-            <p style={{ color: '#777', fontSize: '0.82rem', fontWeight: 500, margin: 0 }}>
+            <p style={{ color: '#999', fontSize: '0.82rem', fontWeight: 500, margin: 0 }}>
               बिहार नवोदयन समागम 2026 — Create your profile picture
             </p>
           </div>
@@ -237,7 +262,7 @@ export function SamagamPic() {
               }}>
                 <div style={{
                   width: 40, height: 40, borderRadius: '50%', overflow: 'hidden',
-                  border: '2.5px solid #43a047', boxShadow: '0 2px 8px rgba(67,160,71,0.2)',
+                  border: '2.5px solid #8b1a2b', boxShadow: '0 2px 8px rgba(139,26,43,0.15)',
                 }}>
                   <img src={croppedPhoto} alt="preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </div>
@@ -271,100 +296,158 @@ export function SamagamPic() {
             <div ref={wrapperRef} style={{ overflow: 'hidden', width: '100%', maxWidth: DP_SIZE }}>
               <div style={{
                 width: DP_SIZE, height: DP_SIZE, transformOrigin: 'top left', transform: `scale(${scale})`,
+                marginBottom: -(DP_SIZE * (1 - scale)),
               }}>
                 <div ref={canvasRef} style={{
                   width: DP_SIZE, height: DP_SIZE, borderRadius: '50%', position: 'relative', overflow: 'hidden',
-                  background: '#4caf50',
+                  background: 'linear-gradient(135deg, #1a6b1e 0%, #2e8b32 30%, #3da044 60%, #2e8b32 100%)',
                 }}>
-                  {/* Inner circle */}
+                  {/* Gold inner ring accent */}
+                  <div style={{
+                    position: 'absolute', top: 10, left: 10, right: 10, bottom: 10,
+                    borderRadius: '50%', border: '2px solid rgba(255,215,0,0.4)',
+                  }} />
+
+                  {/* Inner circle - main content area */}
                   <div style={{
                     position: 'absolute', top: BORDER, left: BORDER,
                     width: innerSize, height: innerSize, borderRadius: '50%', overflow: 'hidden',
-                    background: 'linear-gradient(180deg, #c62828 0%, #b71c1c 20%, #880e4f 45%, #4a148c 75%, #311b92 100%)',
+                    background: 'radial-gradient(ellipse at 50% 30%, #d4342a 0%, #b22a22 20%, #8c2240 38%, #6a1e55 55%, #4a1a6a 72%, #2d1560 88%, #1e0f45 100%)',
                   }}>
-                    {/* Crowd top */}
+                    {/* Subtle radial light overlay for depth */}
                     <div style={{
-                      position: 'absolute', top: 95, left: 0, right: 0, height: 45, opacity: 0.45,
-                      backgroundImage: `url("${crowdSvg}")`, backgroundSize: '100% 100%', backgroundRepeat: 'no-repeat',
+                      position: 'absolute', inset: 0,
+                      background: 'radial-gradient(circle at 50% 20%, rgba(255,255,255,0.08) 0%, transparent 60%)',
                     }} />
 
-                    {/* Crowd bottom */}
+                    {/* Ornamental dots ring */}
                     <div style={{
-                      position: 'absolute', bottom: 50, left: 0, right: 0, height: 45, opacity: 0.35,
-                      backgroundImage: `url("${crowdSvg}")`, backgroundSize: '100% 100%', backgroundRepeat: 'no-repeat',
+                      position: 'absolute', inset: 0,
+                      backgroundImage: `url("${ornamentRingSvg}")`,
+                      backgroundSize: '100% 100%',
                     }} />
 
-                    {/* Title */}
+                    {/* Top decorative arc line */}
                     <div style={{
-                      position: 'absolute', top: 50, left: 0, right: 0, textAlign: 'center',
-                      fontFamily: "'Noto Sans Devanagari', sans-serif", color: '#ffd700',
-                      fontWeight: 900, lineHeight: 1.15,
+                      position: 'absolute', top: 35, left: 80, right: 80, height: 1,
+                      background: 'linear-gradient(90deg, transparent, rgba(255,215,0,0.2), transparent)',
+                    }} />
+
+                    {/* Title block */}
+                    <div style={{
+                      position: 'absolute', top: 46, left: 0, right: 0, textAlign: 'center',
+                      fontFamily: "'Noto Sans Devanagari', sans-serif",
+                      fontWeight: 900, lineHeight: 1.1,
                     }}>
-                      <div style={{ fontSize: '2.4rem' }}>बिहार नवोदयन</div>
-                      <div style={{ fontSize: '2.4rem' }}>समागम -2026</div>
+                      <div style={{
+                        fontSize: '2.6rem', color: '#FFD700',
+                        textShadow: '0 2px 8px rgba(0,0,0,0.5), 0 0 30px rgba(255,215,0,0.15)',
+                        letterSpacing: '0.02em',
+                      }}>बिहार नवोदयन</div>
+                      <div style={{
+                        fontSize: '2.6rem', color: '#FFD700',
+                        textShadow: '0 2px 8px rgba(0,0,0,0.5), 0 0 30px rgba(255,215,0,0.15)',
+                        letterSpacing: '0.02em',
+                      }}>समागम 2026</div>
                     </div>
 
-                    {/* Gold divider line */}
+                    {/* Ornamental divider with diamond */}
                     <div style={{
-                      position: 'absolute', top: 178, left: 60, right: 60, height: 3,
-                      background: 'linear-gradient(90deg, transparent, #ffd700, transparent)',
-                    }} />
-
-                    {/* Date & Venue */}
-                    <div style={{
-                      position: 'absolute', top: 192, left: 0, right: 0, textAlign: 'center',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                      position: 'absolute', top: 176, left: 40, right: 40, height: 12,
+                      display: 'flex', alignItems: 'center',
                     }}>
-                      <span style={{ fontSize: '1.3rem' }}>📅</span>
+                      <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, transparent, #FFD700)' }} />
+                      <div style={{
+                        width: 8, height: 8, background: '#FFD700', transform: 'rotate(45deg)',
+                        margin: '0 8px', flexShrink: 0,
+                      }} />
+                      <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, #FFD700, transparent)' }} />
+                    </div>
+
+                    {/* Date & Venue in a subtle banner */}
+                    <div style={{
+                      position: 'absolute', top: 196, left: 30, right: 30,
+                      background: 'linear-gradient(90deg, transparent, rgba(0,0,0,0.25) 20%, rgba(0,0,0,0.25) 80%, transparent)',
+                      borderRadius: 20, padding: '6px 0',
+                      textAlign: 'center',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+                    }}>
                       <span style={{
-                        fontFamily: "'Noto Sans Devanagari', sans-serif", color: '#ffd700',
-                        fontSize: '1.1rem', fontWeight: 700,
+                        fontFamily: "'Noto Sans Devanagari', sans-serif", color: '#FFD700',
+                        fontSize: '0.95rem', fontWeight: 700,
+                        letterSpacing: '0.02em',
                       }}>
-                        5 अप्रैल 2026, ऊर्जा ऑडिटोरियम, पटना
+                        📅 5 अप्रैल 2026 · ऊर्जा ऑडिटोरियम, पटना
                       </span>
                     </div>
 
-                    {/* Gold divider line 2 */}
+                    {/* Second ornamental divider */}
                     <div style={{
-                      position: 'absolute', top: 228, left: 60, right: 60, height: 3,
-                      background: 'linear-gradient(90deg, transparent, #ffd700, transparent)',
-                    }} />
-
-                    {/* Photo circle */}
-                    <div style={{
-                      position: 'absolute', top: 250, right: 80,
-                      width: 190, height: 190, borderRadius: '50%',
-                      border: '4px solid rgba(255,255,255,0.4)',
-                      overflow: 'hidden', background: '#333',
+                      position: 'absolute', top: 234, left: 40, right: 40, height: 12,
+                      display: 'flex', alignItems: 'center',
                     }}>
-                      {croppedPhoto ? (
-                        <img src={croppedPhoto} alt="photo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                      ) : (
-                        <div style={{
-                          width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          color: '#999', fontSize: '0.75rem', textAlign: 'center', padding: 8,
-                        }}>
-                          Upload Photo
-                        </div>
-                      )}
+                      <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, transparent, rgba(255,215,0,0.4))' }} />
+                      <div style={{
+                        width: 5, height: 5, background: 'rgba(255,215,0,0.5)', borderRadius: '50%',
+                        margin: '0 6px', flexShrink: 0,
+                      }} />
+                      <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, rgba(255,215,0,0.4), transparent)' }} />
                     </div>
 
-                    {/* Name & JNV */}
+                    {/* Photo circle - hero element with double ring */}
                     <div style={{
-                      position: 'absolute', top: 280, left: 60,
-                      fontFamily: "'Noto Sans', sans-serif", color: '#fff',
-                      maxWidth: 240, overflow: 'hidden',
+                      position: 'absolute', top: 255, left: '50%', transform: 'translateX(28%)',
+                      width: 200, height: 200, borderRadius: '50%',
+                      background: 'linear-gradient(135deg, #FFD700, #DAA520, #FFD700)',
+                      padding: 4, boxSizing: 'border-box',
                     }}>
                       <div style={{
-                        fontSize: name.length > 18 ? '1.3rem' : '1.65rem',
-                        fontWeight: 700, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                        width: '100%', height: '100%', borderRadius: '50%',
+                        overflow: 'hidden', background: '#1e0f45',
+                      }}>
+                        {croppedPhoto ? (
+                          <img src={croppedPhoto} alt="photo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        ) : (
+                          <div style={{
+                            width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            color: 'rgba(255,215,0,0.3)', fontSize: '0.8rem', textAlign: 'center', padding: 8,
+                            fontFamily: "'Inter', sans-serif",
+                          }}>
+                            Your Photo
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Name & JNV - left aligned with decorative accent */}
+                    <div style={{
+                      position: 'absolute', top: 285, left: 45,
+                      fontFamily: "'Noto Sans', sans-serif",
+                      maxWidth: 220, overflow: 'hidden',
+                    }}>
+                      <div style={{
+                        fontSize: name.length > 18 ? '1.25rem' : '1.6rem',
+                        fontWeight: 800, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                        color: '#fff',
+                        textShadow: '0 2px 6px rgba(0,0,0,0.4)',
+                        lineHeight: 1.2,
                       }}>
                         {name || 'Your Name'}
                       </div>
-                      <div style={{ fontSize: '1.1rem', color: '#ddd', marginTop: 6, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      <div style={{
+                        fontSize: '1rem', color: '#FFD700', marginTop: 5, fontWeight: 600,
+                        whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                        opacity: 0.85,
+                      }}>
                         {jnv || 'JNV District'}
                       </div>
                     </div>
+
+                    {/* Bottom decorative arc */}
+                    <div style={{
+                      position: 'absolute', bottom: 30, left: 80, right: 80, height: 1,
+                      background: 'linear-gradient(90deg, transparent, rgba(255,215,0,0.15), transparent)',
+                    }} />
                   </div>
                 </div>
               </div>
@@ -380,12 +463,12 @@ export function SamagamPic() {
               width: '100%', padding: '14px 20px',
               background: isExporting
                 ? '#e0e0e0'
-                : 'linear-gradient(135deg, #43a047 0%, #2e7d32 50%, #43a047 100%)',
+                : 'linear-gradient(135deg, #8b1a2b 0%, #6d1426 50%, #8b1a2b 100%)',
               backgroundSize: '200% auto',
               animation: !isExporting ? 'sdp-shimmer 3s linear infinite' : 'none',
               color: '#fff', border: 'none', borderRadius: 12,
               fontSize: '1rem', fontWeight: 700, cursor: isExporting ? 'wait' : 'pointer',
-              boxShadow: isExporting ? 'none' : '0 4px 14px rgba(46,125,50,0.25)',
+              boxShadow: isExporting ? 'none' : '0 4px 14px rgba(139,26,43,0.25)',
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
               letterSpacing: '0.02em',
             }}>
@@ -402,7 +485,6 @@ export function SamagamPic() {
           zIndex: 1000, display: 'flex', flexDirection: 'column',
           animation: 'sdp-fadeIn 0.2s ease-out',
         }}>
-          {/* Modal header */}
           <div style={{
             padding: '14px 20px',
             background: 'rgba(0,0,0,0.5)',
@@ -445,7 +527,7 @@ export function SamagamPic() {
               <span style={{ color: '#aaa', fontSize: '0.82rem', fontWeight: 500 }}>Zoom</span>
               <input type="range" min={1} max={3} step={0.05} value={zoom}
                 onChange={e => setZoom(Number(e.target.value))}
-                style={{ width: 150, accentColor: '#43a047' }} />
+                style={{ width: 150, accentColor: '#8b1a2b' }} />
             </div>
             <div style={{ display: 'flex', gap: 10 }}>
               <button onClick={() => setShowCropper(false)}
@@ -460,11 +542,11 @@ export function SamagamPic() {
               <button onClick={handleCropDone}
                 style={{
                   padding: '10px 28px',
-                  background: 'linear-gradient(135deg, #43a047, #2e7d32)',
+                  background: 'linear-gradient(135deg, #8b1a2b, #6d1426)',
                   color: '#fff', border: 'none', borderRadius: 10,
                   fontWeight: 700, fontSize: '0.92rem', cursor: 'pointer',
                   fontFamily: "'Inter', sans-serif",
-                  boxShadow: '0 2px 12px rgba(46,125,50,0.3)',
+                  boxShadow: '0 2px 12px rgba(139,26,43,0.3)',
                 }}>
                 Apply Crop
               </button>
