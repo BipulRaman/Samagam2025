@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { toPng } from 'html-to-image'
 import Cropper from 'react-easy-crop'
 import type { Area } from 'react-easy-crop'
