@@ -419,11 +419,13 @@ export function SamagamPic() {
                       </div>
                     </div>
 
-                    {/* Name & JNV - left aligned with decorative accent */}
+                    {/* Name & JNV - centered in left half */}
                     <div style={{
-                      position: 'absolute', top: 285, left: 45,
+                      position: 'absolute', top: 285, left: 0, right: 250,
                       fontFamily: "'Noto Sans', sans-serif",
-                      maxWidth: 220, overflow: 'hidden',
+                      overflow: 'hidden',
+                      textAlign: 'center',
+                      display: 'flex', flexDirection: 'column', alignItems: 'center',
                     }}>
                       <div style={{
                         fontSize: name.length > 18 ? '1.25rem' : '1.6rem',
