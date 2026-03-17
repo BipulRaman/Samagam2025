@@ -201,7 +201,7 @@ export function SamagamPic() {
                 className="sdp-input"
                 type="text" value={name}
                 onChange={e => setName(e.target.value.slice(0, 65))}
-                placeholder="e.g. Rahul Kumar"
+                placeholder="Enter your name"
                 maxLength={65}
                 style={{
                   width: '100%', padding: '11px 14px',
@@ -224,7 +224,7 @@ export function SamagamPic() {
                 className="sdp-input"
                 type="text" value={jnv}
                 onChange={e => setJnv(e.target.value.slice(0, 25))}
-                placeholder="e.g. JNV Madhubani"
+                placeholder="e.g. JNV District"
                 maxLength={25}
                 style={{
                   width: '100%', padding: '11px 14px',
