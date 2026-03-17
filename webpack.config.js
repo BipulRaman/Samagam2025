@@ -23,11 +23,10 @@ const config = {
     module: {
         rules: [
             {
-                test: /\.(sa|sc|c)ss$/,
+                test: /\.css$/,
                 use: [
                     'style-loader',
                     'css-loader',
-                    'sass-loader'
                 ]
             }, {
                 test: /\.tsx?$/,
