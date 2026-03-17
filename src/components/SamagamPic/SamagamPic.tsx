@@ -81,14 +81,12 @@ export function SamagamPic() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
-    const reader = new FileReader()
-    reader.onload = () => {
-      setPhotoSrc(reader.result as string)
+    normalizeImage(file).then((dataUrl) => {
+      setPhotoSrc(dataUrl)
       setShowCropper(true)
       setCropState({ x: 0, y: 0 })
       setZoom(1)
-    }
-    reader.readAsDataURL(file)
+    })
   }
 
   const onCropComplete = useCallback((_: Area, areaPixels: Area) => {
@@ -169,7 +167,7 @@ export function SamagamPic() {
 
           {/* ── Header ── */}
           <div style={{ textAlign: 'center', marginBottom: 22 }}>
-            <p style={{ color: '#7b1530', fontSize: '1.1rem', fontWeight: 700, margin: 0 }}>
+            <p style={{ color: '#7b1530', fontSize: '1.1rem', fontWeight: 700, margin: 0, textAlign: 'center' }}>
               बिहार नवोदयन समागम 2026
               <br />
               <span style={{ fontSize: '0.85rem', fontWeight: 500, color: '#999' }}>Create your profile picture</span>
@@ -519,6 +517,7 @@ export function SamagamPic() {
               zoom={zoom}
               aspect={1}
               cropShape="round"
+              objectFit="contain"
               onCropChange={setCropState}
               onZoomChange={setZoom}
               onCropComplete={onCropComplete}
