@@ -200,9 +200,9 @@ export function SamagamPic() {
               <input
                 className="sdp-input"
                 type="text" value={name}
-                onChange={e => setName(e.target.value.slice(0, 25))}
+                onChange={e => setName(e.target.value.slice(0, 65))}
                 placeholder="e.g. Rahul Kumar"
-                maxLength={25}
+                maxLength={65}
                 style={{
                   width: '100%', padding: '11px 14px',
                   border: '1.5px solid #ddd', borderRadius: 10,
@@ -421,28 +421,41 @@ export function SamagamPic() {
 
                     {/* Name & JNV - centered in left half */}
                     <div style={{
-                      position: 'absolute', top: 285, left: 0, right: 250,
-                      fontFamily: "'Noto Sans', sans-serif",
+                      position: 'absolute', top: 280, left: 50, right: 245,
+                      fontFamily: "'Noto Sans Devanagari', 'Noto Sans', sans-serif",
                       overflow: 'hidden',
                       textAlign: 'center',
-                      display: 'flex', flexDirection: 'column', alignItems: 'center',
                     }}>
                       <div style={{
-                        fontSize: name.length > 18 ? '1.25rem' : '1.6rem',
-                        fontWeight: 800, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                        fontSize: name.length > 35 ? '1.4rem' : name.length > 22 ? '1.6rem' : name.length > 14 ? '1.9rem' : '2.4rem',
+                        fontWeight: 600, overflow: 'hidden',
                         color: '#fff',
                         textShadow: '0 2px 6px rgba(0,0,0,0.4)',
-                        lineHeight: 1.2,
+                        lineHeight: 1.3,
+                        whiteSpace: 'normal', wordWrap: 'break-word',
+                        maxHeight: '4em',
                       }}>
                         {name || 'Your Name'}
                       </div>
                       <div style={{
-                        fontSize: '1rem', color: '#FFD700', marginTop: 5, fontWeight: 600,
+                        fontSize: '1.15rem', color: '#FFD700', marginTop: 5, fontWeight: 600,
                         whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
                         opacity: 0.85,
                       }}>
                         {jnv || 'JNV District'}
                       </div>
+                    </div>
+
+                    {/* Bottom branding */}
+                    <div style={{
+                      position: 'absolute', bottom: 40, left: 0, right: 0,
+                      textAlign: 'center',
+                      fontFamily: "'Noto Sans', sans-serif",
+                      fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.12em',
+                      color: 'rgba(255,215,0,0.5)',
+                      textTransform: 'uppercase',
+                    }}>
+                      Bihar Navodaya Pariwar
                     </div>
 
                     {/* Bottom decorative arc */}
