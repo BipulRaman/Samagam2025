@@ -21,18 +21,18 @@ export function SamagamForm() {
     style.textContent = `
       @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-      .sf-wrap { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 20px 12px; }
+      .sf-wrap { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 0; }
 
       .sf-invite {
-        max-width: 560px; margin: 0 auto; padding: 0; background: #fff;
-        border-radius: 20px; overflow: hidden;
-        box-shadow: 0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
-        border: 1px solid #eee; color: #333; line-height: 1.7; font-size: 0.95rem;
+        max-width: 600px; margin: 0 auto; padding: 0; background: #fff;
+        border-radius: 0; overflow: hidden;
+        box-shadow: none;
+        border: none; color: #333; line-height: 1.7; font-size: 0.95rem;
       }
 
       .sf-header {
         background: linear-gradient(135deg, #7b1530 0%, #a3213f 50%, #7b1530 100%);
-        padding: 28px 24px 22px; text-align: center; color: #fff; position: relative; overflow: hidden;
+        padding: 24px 16px 20px; text-align: center; color: #fff; position: relative; overflow: hidden;
       }
       .sf-header::before {
         content: ''; position: absolute; inset: 0;
@@ -43,7 +43,7 @@ export function SamagamForm() {
       .sf-header .sf-subtitle { font-size: 0.82rem; opacity: 0.85; font-weight: 400; position: relative; }
       .sf-header .sf-season { display: inline-block; background: rgba(255,215,0,0.2); border: 1px solid rgba(255,215,0,0.35); border-radius: 20px; padding: 3px 14px; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; position: relative; }
 
-      .sf-body { padding: 24px 24px 28px; }
+      .sf-body { padding: 16px 12px 20px; }
       .sf-body p { margin: 6px 0; }
       .sf-body b { color: #222; }
       .sf-body ul { padding-left: 0; margin: 10px 0; list-style: none; }
@@ -189,7 +189,7 @@ export function SamagamForm() {
           {/* ── Register Button ── */}
           <div className="sf-register-wrap">
             <a
-              href="https://www.biharnavodayapariwar.com/p/alumni-meet.html"
+              href="https://forms.gle/Xs338fJ1cvijRaX96"
               target="_blank"
               rel="noopener noreferrer"
               className="sf-register-btn"
