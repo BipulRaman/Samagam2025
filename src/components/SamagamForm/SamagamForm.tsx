@@ -234,7 +234,7 @@ export function SamagamForm() {
             </div>
             <div className="sf-sponsors-row">
               <div className="sf-sponsor-img-wrap sf-title-logo">
-                <img src="/images/OPJU.jpeg" alt="OPJU" />
+                <img src="https://sam.bipul.in/images/OPJU.jpeg" alt="OPJU" />
               </div>
             </div>
           </div>
@@ -244,13 +244,13 @@ export function SamagamForm() {
             <div className="sf-sponsor-name">Incure Hospital · Balajee Global · Beauty Island</div>
             <div className="sf-sponsors-row">
               <div className="sf-sponsor-img-wrap">
-                <img src="/images/IncureHospital.jpeg" alt="Incure Hospital" />
+                <img src="https://sam.bipul.in/images/IncureHospital.jpeg" alt="Incure Hospital" />
               </div>
               <div className="sf-sponsor-img-wrap">
-                <img src="/images/BalaJee.jpeg" alt="Balajee Global" />
+                <img src="https://sam.bipul.in/images/BalaJee.jpeg" alt="Balajee Global" />
               </div>
               <div className="sf-sponsor-img-wrap">
-                <img src="/images/BeutyIsland.jpeg" alt="Beauty Island" />
+                <img src="https://sam.bipul.in/images/BeutyIsland.jpeg" alt="Beauty Island" />
               </div>
             </div>
           </div>
