@@ -156,7 +156,7 @@ Error generating stack: `+l.message+`
       .sf-wrap { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 0; }
 
       .sf-invite {
-        max-width: 600px; margin: 0 auto; padding: 0; background: #fff;
+        max-width: 600px; margin: 0; padding: 0; background: #fff;
         border-radius: 0; overflow: hidden;
         box-shadow: none;
         border: none; color: #333; line-height: 1.7; font-size: 1rem;
@@ -164,7 +164,7 @@ Error generating stack: `+l.message+`
 
       .sf-header {
         background: linear-gradient(135deg, #7b1530 0%, #a3213f 50%, #7b1530 100%);
-        padding: 24px 16px 20px; text-align: center; color: #fff; position: relative; overflow: hidden;
+        padding: 24px 16px 20px; text-align: left; color: #fff; position: relative; overflow: hidden;
       }
       .sf-header::before {
         content: ''; position: absolute; inset: 0;
@@ -185,7 +185,7 @@ Error generating stack: `+l.message+`
 
       .sf-hr { height: 1px; margin: 18px 0; background: linear-gradient(90deg, transparent, #e8e0e2, transparent); border: none; }
 
-      .sf-tagline { text-align: center; color: #7b1530; font-style: italic; font-size: 1rem; margin: 4px 0 0; }
+      .sf-tagline { text-align: left; color: #7b1530; font-style: italic; font-size: 1rem; margin: 4px 0 0; }
 
       .sf-payment-card {
         background: #fafafa; border: 1px solid #eee; border-radius: 14px; padding: 16px 18px; margin: 6px 0;
@@ -206,7 +206,7 @@ Error generating stack: `+l.message+`
       .sf-bank-grid { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; margin-top: 10px; align-items: center; }
       .sf-bank-label { font-size: 0.92rem; color: #888; font-weight: 500; }
 
-      .sf-register-wrap { text-align: center; margin: 4px 0; }
+      .sf-register-wrap { text-align: left; margin: 4px 0; }
       .sf-register-btn {
         display: inline-flex; align-items: center; gap: 8px;
         padding: 14px 40px; background: linear-gradient(135deg, #7b1530, #a3213f);
@@ -242,7 +242,7 @@ Error generating stack: `+l.message+`
       .sf-sponsor-img-wrap.sf-title-logo { height: 120px; padding: 6px 8px; }
       .sf-sponsor-img-wrap.sf-title-logo img { max-width: 320px; }
 
-      .sf-footer { text-align: center; padding-top: 4px; }
+      .sf-footer { text-align: left; padding-top: 4px; }
       .sf-footer p { color: #888; font-size: 0.95rem; }
       .sf-rsvp { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #aaa; margin-top: 12px; }
       .sf-rsvp-name { font-size: 1rem; color: #7b1530; font-weight: 700; margin-top: 2px; }
