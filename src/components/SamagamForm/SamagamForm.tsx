@@ -41,8 +41,6 @@ export function SamagamForm() {
       }
       .sf-header h2 { font-size: 1.4rem; font-weight: 800; margin: 0 0 2px; position: relative; letter-spacing: 0.02em; }
       .sf-header .sf-subtitle { font-size: 0.82rem; opacity: 0.85; font-weight: 400; position: relative; }
-      .sf-header .sf-season { display: inline-block; background: rgba(255,215,0,0.2); border: 1px solid rgba(255,215,0,0.35); border-radius: 20px; padding: 3px 14px; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; position: relative; }
-
       .sf-body { padding: 16px 12px 20px; }
       .sf-body p { margin: 6px 0; }
       .sf-body b { color: #222; }
@@ -142,9 +140,8 @@ export function SamagamForm() {
 
         {/* ── Header Banner ── */}
         <div className="sf-header">
-          <div className="sf-season">Season 5</div>
-          <h2>बिहार नवोदयन समागम 2026</h2>
-          <div className="sf-subtitle">Bihar Navodayan Samagam — State-level Alumni Meet</div>
+          <h2>Bihar Navodayan Samagam 5.0</h2>
+          <div className="sf-subtitle">State-level Navodaya Alumni Meet of Bihar</div>
         </div>
 
         {/* ── Body ── */}
