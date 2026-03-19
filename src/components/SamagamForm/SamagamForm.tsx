@@ -27,7 +27,7 @@ export function SamagamForm() {
         max-width: 600px; margin: 0 auto; padding: 0; background: #fff;
         border-radius: 0; overflow: hidden;
         box-shadow: none;
-        border: none; color: #333; line-height: 1.7; font-size: 0.95rem;
+        border: none; color: #333; line-height: 1.7; font-size: 1rem;
       }
 
       .sf-header {
@@ -53,26 +53,26 @@ export function SamagamForm() {
 
       .sf-hr { height: 1px; margin: 18px 0; background: linear-gradient(90deg, transparent, #e8e0e2, transparent); border: none; }
 
-      .sf-tagline { text-align: center; color: #7b1530; font-style: italic; font-size: 0.92rem; margin: 4px 0 0; }
+      .sf-tagline { text-align: center; color: #7b1530; font-style: italic; font-size: 1rem; margin: 4px 0 0; }
 
       .sf-payment-card {
         background: #fafafa; border: 1px solid #eee; border-radius: 14px; padding: 16px 18px; margin: 6px 0;
       }
-      .sf-payment-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #888; margin-bottom: 8px; }
+      .sf-payment-label { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #888; margin-bottom: 8px; }
 
-      .sf-code { user-select: all; display: inline; padding: 3px 8px; margin: 0; white-space: nowrap; background: #fff; border: 1px solid #e8e8e8; border-radius: 6px; font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace; font-size: 0.88rem; color: #333; }
+      .sf-code { user-select: all; display: inline; padding: 3px 8px; margin: 0; white-space: nowrap; background: #fff; border: 1px solid #e8e8e8; border-radius: 6px; font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace; font-size: 0.95rem; color: #333; }
 
       .sf-upi-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
       .sf-copy-btn {
         display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px;
         border: 1.5px solid #ddd; border-radius: 8px; background: #fff; cursor: pointer;
-        font-size: 0.78rem; font-weight: 600; color: #666; transition: all 0.2s;
+        font-size: 0.88rem; font-weight: 600; color: #666; transition: all 0.2s;
         font-family: inherit;
       }
       .sf-copy-btn:hover { border-color: #7b1530; background: #fdf2f4; color: #7b1530; }
 
       .sf-bank-grid { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; margin-top: 10px; align-items: center; }
-      .sf-bank-label { font-size: 0.82rem; color: #888; font-weight: 500; }
+      .sf-bank-label { font-size: 0.92rem; color: #888; font-weight: 500; }
 
       .sf-register-wrap { text-align: center; margin: 4px 0; }
       .sf-register-btn {
@@ -88,7 +88,7 @@ export function SamagamForm() {
       .sf-register-btn:active { transform: translateY(0); color: #fff !important; }
 
       .sf-section-title {
-        font-size: 0.78rem; font-weight: 700; color: #7b1530; margin: 0 0 10px;
+        font-size: 0.9rem; font-weight: 700; color: #7b1530; margin: 0 0 10px;
         text-transform: uppercase; letter-spacing: 0.06em;
         display: flex; align-items: center; gap: 8px;
       }
@@ -97,8 +97,8 @@ export function SamagamForm() {
       .sf-sponsor-card {
         background: #fafafa; border: 1px solid #eee; border-radius: 14px; padding: 16px 18px; margin: 8px 0;
       }
-      .sf-sponsor-type { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #b08a30; margin-bottom: 6px; }
-      .sf-sponsor-name { font-size: 0.88rem; color: #444; margin-bottom: 10px; }
+      .sf-sponsor-type { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #b08a30; margin-bottom: 6px; }
+      .sf-sponsor-name { font-size: 0.95rem; color: #444; margin-bottom: 10px; }
       .sf-sponsors-row { display: flex; flex-wrap: nowrap; gap: 12px; align-items: center; }
       .sf-sponsor-img-wrap {
         flex: 1; min-width: 0; height: 80px; border-radius: 14px; overflow: hidden;
@@ -111,8 +111,8 @@ export function SamagamForm() {
       .sf-sponsor-img-wrap.sf-title-logo img { max-width: 320px; }
 
       .sf-footer { text-align: center; padding-top: 4px; }
-      .sf-footer p { color: #888; font-size: 0.88rem; }
-      .sf-rsvp { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #aaa; margin-top: 12px; }
+      .sf-footer p { color: #888; font-size: 0.95rem; }
+      .sf-rsvp { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #aaa; margin-top: 12px; }
       .sf-rsvp-name { font-size: 1rem; color: #7b1530; font-weight: 700; margin-top: 2px; }
 
       .sf-snackbar {
