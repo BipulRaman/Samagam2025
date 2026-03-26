@@ -52,6 +52,7 @@ function normalizeImage(file: File): Promise<string> {
 export function SamagamPic() {
   const [name, setName] = useState('')
   const [jnv, setJnv] = useState('')
+  const [batchYear, setBatchYear] = useState('')
   const [photoSrc, setPhotoSrc] = useState<string | null>(null)
   const [croppedPhoto, setCroppedPhoto] = useState<string | null>(null)
   const [showCropper, setShowCropper] = useState(false)
@@ -64,6 +65,18 @@ export function SamagamPic() {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const fileRef = useRef<HTMLInputElement>(null)
   const [scale, setScale] = useState(1)
+
+  const formInputStyle = {
+    width: '100%',
+    padding: '11px 14px',
+    border: '1.5px solid #ddd',
+    borderRadius: 10,
+    fontSize: '0.95rem',
+    boxSizing: 'border-box' as const,
+    outline: 'none',
+    color: '#333',
+    background: '#fafafa',
+  }
 
   const updateScale = useCallback(() => {
     if (!wrapperRef.current) return
@@ -219,7 +232,7 @@ export function SamagamPic() {
 
           {/* ── Form Fields ── */}
           <div style={{ display: 'flex', gap: 12, marginBottom: 16, flexWrap: 'wrap' }}>
-            <div style={{ flex: 1, minWidth: 180 }}>
+            <div style={{ flex: '0 0 calc(50% - 6px)', minWidth: 180, maxWidth: 'calc(50% - 6px)' }}>
               <label style={{
                 fontWeight: 600, display: 'block', marginBottom: 6,
                 fontSize: '0.78rem', color: '#555',
@@ -233,16 +246,10 @@ export function SamagamPic() {
                 onChange={e => setName(e.target.value.slice(0, 65))}
                 placeholder="Enter your name"
                 maxLength={65}
-                style={{
-                  width: '100%', padding: '11px 14px',
-                  border: '1.5px solid #ddd', borderRadius: 10,
-                  fontSize: '0.95rem', boxSizing: 'border-box',
-                  outline: 'none', color: '#333',
-                  background: '#fafafa',
-                }}
+                style={formInputStyle}
               />
             </div>
-            <div style={{ flex: 1, minWidth: 180 }}>
+            <div style={{ flex: '0 0 calc(50% - 6px)', minWidth: 180, maxWidth: 'calc(50% - 6px)' }}>
               <label style={{
                 fontWeight: 600, display: 'block', marginBottom: 6,
                 fontSize: '0.78rem', color: '#555',
@@ -256,13 +263,24 @@ export function SamagamPic() {
                 onChange={e => setJnv(e.target.value.slice(0, 25))}
                 placeholder="e.g. JNV District"
                 maxLength={25}
-                style={{
-                  width: '100%', padding: '11px 14px',
-                  border: '1.5px solid #ddd', borderRadius: 10,
-                  fontSize: '0.95rem', boxSizing: 'border-box',
-                  outline: 'none', color: '#333',
-                  background: '#fafafa',
-                }}
+                style={formInputStyle}
+              />
+            </div>
+            <div style={{ flex: '0 0 calc(50% - 6px)', minWidth: 180, maxWidth: 'calc(50% - 6px)' }}>
+              <label style={{
+                fontWeight: 600, display: 'block', marginBottom: 6,
+                fontSize: '0.78rem', color: '#555',
+                letterSpacing: '0.04em', textTransform: 'uppercase',
+              }}>
+                Batch Year
+              </label>
+              <input
+                className="sdp-input"
+                type="text" value={batchYear}
+                onChange={e => setBatchYear(e.target.value.slice(0, 20))}
+                placeholder="e.g. 2019-26"
+                maxLength={20}
+                style={formInputStyle}
               />
             </div>
           </div>
@@ -375,7 +393,7 @@ export function SamagamPic() {
                     <div style={{
                       position: 'absolute', top: 620, left: 100, width: 440,
                       fontFamily: "'Inter', 'Noto Sans Devanagari', sans-serif",
-                      textAlign: 'left',
+                      textAlign: 'center',
                       zIndex: 2,
                     }}>
                       <div style={{
@@ -391,9 +409,15 @@ export function SamagamPic() {
                       </div>
                       <div style={{
                         fontSize: '2.4rem', color: '#e11d48', marginTop: 10, fontWeight: 800,
-                        textAlign: 'left', display: 'flex', paddingLeft: 30, alignItems: 'center',
+                        textAlign: 'center', display: 'flex', paddingLeft: 50, alignItems: 'center',
                       }}>
                         {jnv || 'JNV District Name'}
+                      </div>
+                      <div style={{
+                        fontSize: '2.4rem', color: '#e11d48', marginTop: 10, fontWeight: 800,
+                        textAlign: 'center', display: 'flex', paddingLeft: 110, alignItems: 'center',
+                      }}>
+                        {batchYear || 'Batch Year'}
                       </div>
                     </div>
                   </div>
