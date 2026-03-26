@@ -330,7 +330,7 @@ export function SamagamPic() {
               }}>
                 <div ref={canvasRef} style={{
                   width: DP_SIZE, height: DP_SIZE, borderRadius: '50%', position: 'relative', overflow: 'hidden',
-                  backgroundImage: 'url("/images/BG.png")',
+                  backgroundImage: 'url("https://sam.bipul.in/images/BG.png")',
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                 }}>
