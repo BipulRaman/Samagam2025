@@ -3,7 +3,7 @@ import { toPng } from 'html-to-image'
 import Cropper from 'react-easy-crop'
 import type { Area } from 'react-easy-crop'
 
-const DP_SIZE = 600
+const DP_SIZE = 1000
 const BORDER = 16
 
 // ── Crop helper ──────────────────────────────────────────────
@@ -293,117 +293,34 @@ export function SamagamPic() {
               }}>
                 <div ref={canvasRef} style={{
                   width: DP_SIZE, height: DP_SIZE, borderRadius: '50%', position: 'relative', overflow: 'hidden',
-                  background: 'linear-gradient(135deg, #1a6b1e 0%, #2e8b32 30%, #3da044 60%, #2e8b32 100%)',
+                  background: 'url("/images/BG.png")',
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
                 }}>
-                  {/* Gold inner ring accent */}
-                  <div style={{
-                    position: 'absolute', top: 10, left: 10, right: 10, bottom: 10,
-                    borderRadius: '50%', border: '2px solid rgba(255,215,0,0.4)',
-                  }} />
-
                   {/* Inner circle - main content area */}
                   <div style={{
-                    position: 'absolute', top: BORDER, left: BORDER,
-                    width: innerSize, height: innerSize, borderRadius: '50%', overflow: 'hidden',
-                    background: 'radial-gradient(ellipse at 50% 30%, #d4342a 0%, #b22a22 20%, #8c2240 38%, #6a1e55 55%, #4a1a6a 72%, #2d1560 88%, #1e0f45 100%)',
+                    position: 'absolute', top: 0, left: 0,
+                    width: DP_SIZE, height: DP_SIZE, borderRadius: '50%', overflow: 'hidden',
                   }}>
-                    {/* Subtle radial light overlay for depth */}
+                    {/* Photo circle - hero element positioned in the middle-right yellow space */}
                     <div style={{
-                      position: 'absolute', inset: 0,
-                      background: 'radial-gradient(circle at 50% 20%, rgba(255,255,255,0.08) 0%, transparent 60%)',
-                    }} />
-
-                    {/* Ornamental dots ring */}
-                    <div style={{
-                      position: 'absolute', inset: 0,
-                      backgroundImage: `url("${ornamentRingSvg}")`,
-                      backgroundSize: '100% 100%',
-                    }} />
-
-                    {/* Top decorative arc line */}
-                    <div style={{
-                      position: 'absolute', top: 35, left: 80, right: 80, height: 1,
-                      background: 'linear-gradient(90deg, transparent, rgba(255,215,0,0.2), transparent)',
-                    }} />
-
-                    {/* Title block */}
-                    <div style={{
-                      position: 'absolute', top: 46, left: 0, right: 0, textAlign: 'center',
-                      fontFamily: "'Noto Sans Devanagari', sans-serif",
-                      fontWeight: 900, lineHeight: 1.1,
-                    }}>
-                      <div style={{
-                        fontSize: '2.6rem', color: '#FFD700',
-                        textShadow: '0 2px 8px rgba(0,0,0,0.5), 0 0 30px rgba(255,215,0,0.15)',
-                        letterSpacing: '0.02em',
-                      }}>बिहार नवोदयन</div>
-                      <div style={{
-                        fontSize: '2.6rem', color: '#FFD700',
-                        textShadow: '0 2px 8px rgba(0,0,0,0.5), 0 0 30px rgba(255,215,0,0.15)',
-                        letterSpacing: '0.02em',
-                      }}>समागम 2026</div>
-                    </div>
-
-                    {/* Ornamental divider with diamond */}
-                    <div style={{
-                      position: 'absolute', top: 176, left: 40, right: 40, height: 12,
-                      display: 'flex', alignItems: 'center',
-                    }}>
-                      <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, transparent, #FFD700)' }} />
-                      <div style={{
-                        width: 8, height: 8, background: '#FFD700', transform: 'rotate(45deg)',
-                        margin: '0 8px', flexShrink: 0,
-                      }} />
-                      <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, #FFD700, transparent)' }} />
-                    </div>
-
-                    {/* Date & Venue in a subtle banner */}
-                    <div style={{
-                      position: 'absolute', top: 196, left: 30, right: 30,
-                      background: 'linear-gradient(90deg, transparent, rgba(0,0,0,0.25) 20%, rgba(0,0,0,0.25) 80%, transparent)',
-                      borderRadius: 20, padding: '6px 0',
-                      textAlign: 'center',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-                    }}>
-                      <span style={{
-                        fontFamily: "'Noto Sans Devanagari', sans-serif", color: '#FFD700',
-                        fontSize: '0.95rem', fontWeight: 700,
-                        letterSpacing: '0.02em',
-                      }}>
-                        📅 5 अप्रैल 2026 · ऊर्जा ऑडिटोरियम, पटना
-                      </span>
-                    </div>
-
-                    {/* Second ornamental divider */}
-                    <div style={{
-                      position: 'absolute', top: 234, left: 40, right: 40, height: 12,
-                      display: 'flex', alignItems: 'center',
-                    }}>
-                      <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, transparent, rgba(255,215,0,0.4))' }} />
-                      <div style={{
-                        width: 5, height: 5, background: 'rgba(255,215,0,0.5)', borderRadius: '50%',
-                        margin: '0 6px', flexShrink: 0,
-                      }} />
-                      <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, rgba(255,215,0,0.4), transparent)' }} />
-                    </div>
-
-                    {/* Photo circle - hero element with double ring */}
-                    <div style={{
-                      position: 'absolute', top: 255, left: '50%', transform: 'translateX(28%)',
-                      width: 200, height: 200, borderRadius: '50%',
-                      background: 'linear-gradient(135deg, #FFD700, #DAA520, #FFD700)',
-                      padding: 4, boxSizing: 'border-box',
+                      position: 'absolute', top: 575, right: 165,
+                      width: 300, height: 300, borderRadius: '50%',
+                      padding: 0, boxSizing: 'border-box',
+                      zIndex: 1,
                     }}>
                       <div style={{
                         width: '100%', height: '100%', borderRadius: '50%',
-                        overflow: 'hidden', background: '#1e0f45',
+                        overflow: 'hidden', background: '#eee',
+                        border: '8px solid #3b82f6',
+                        boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
                       }}>
                         {croppedPhoto ? (
                           <img src={croppedPhoto} alt="photo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                         ) : (
                           <div style={{
                             width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            color: 'rgba(255,215,0,0.3)', fontSize: '0.8rem', textAlign: 'center', padding: 8,
+                            color: '#999', fontSize: '1.2rem', textAlign: 'center', padding: 6,
                             fontFamily: "'Inter', sans-serif",
                           }}>
                             Your Photo
@@ -412,52 +329,35 @@ export function SamagamPic() {
                       </div>
                     </div>
 
-                    {/* Name & JNV - centered in left half */}
+                    {/* Name & JNV - positioned on the left in the yellow area */}
                     <div style={{
-                      position: 'absolute', top: 280, left: 50, right: 245,
-                      fontFamily: "'Noto Sans Devanagari', 'Noto Sans', sans-serif",
-                      overflow: 'hidden',
-                      textAlign: 'center',
+                      position: 'absolute', top: 620, left: 100, width: 440,
+                      fontFamily: "'Inter', 'Noto Sans Devanagari', sans-serif",
+                      textAlign: 'left',
+                      zIndex: 2,
                     }}>
                       <div style={{
-                        fontSize: name.length > 35 ? '1.4rem' : name.length > 22 ? '1.6rem' : name.length > 14 ? '1.9rem' : '2.4rem',
-                        fontWeight: 600, overflow: 'hidden',
-                        color: '#fff',
-                        textShadow: '0 2px 6px rgba(0,0,0,0.4)',
-                        lineHeight: 1.3,
-                        whiteSpace: 'normal', wordWrap: 'break-word',
-                        maxHeight: '4em',
+                        fontSize: name.length > 30 ? '2.8rem' : name.length > 10 ? '3.5rem' : '4.0rem',
+                        fontWeight: 900,
+                        color: '#4a69fd',
+                        letterSpacing: '-0.01em',
+                        lineHeight: 1,
+                        wordWrap: 'break-word',
+                        overflowWrap: 'break-word',
                       }}>
                         {name || 'Your Name'}
                       </div>
                       <div style={{
-                        fontSize: '1.15rem', color: '#FFD700', marginTop: 5, fontWeight: 600,
-                        whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
-                        opacity: 0.85,
+                        fontSize: '2.4rem', color: '#e11d48', marginTop: 10, fontWeight: 800,
+                        textAlign: 'left', display: 'flex', paddingLeft: 30, alignItems: 'center',
                       }}>
-                        {jnv || 'JNV District'}
+                        {jnv || 'JNV District Name'}
                       </div>
                     </div>
-
-                    {/* Bottom branding */}
-                    <div style={{
-                      position: 'absolute', bottom: 40, left: 0, right: 0,
-                      textAlign: 'center',
-                      fontFamily: "'Noto Sans', sans-serif",
-                      fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.12em',
-                      color: 'rgba(255,215,0,0.5)',
-                      textTransform: 'uppercase',
-                    }}>
-                      Bihar Navodaya Pariwar
-                    </div>
-
-                    {/* Bottom decorative arc */}
-                    <div style={{
-                      position: 'absolute', bottom: 30, left: 80, right: 80, height: 1,
-                      background: 'linear-gradient(90deg, transparent, rgba(255,215,0,0.15), transparent)',
-                    }} />
                   </div>
                 </div>
+
+                {/* Bottom branding and arc was originally here, but was duplicated/misplaced during edit */}
               </div>
             </div>
           </div>
