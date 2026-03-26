@@ -103,14 +103,51 @@ export function SamagamPic() {
   const handleExport = async () => {
     if (!canvasRef.current) return
     setIsExporting(true)
+    const target = canvasRef.current
+    const originalTransform = target.style.transform
+    const originalPosition = target.style.position
     try {
-      const dataUrl = await toPng(canvasRef.current, { pixelRatio: 4, cacheBust: true })
+      // Small delay to ensure any pending renders are complete
+      await new Promise(r => setTimeout(r, 200))
+
+      const options = {
+        width: DP_SIZE,
+        height: DP_SIZE,
+        pixelRatio: 4,
+        cacheBust: true,
+        skipFonts: true,
+        style: {
+          transform: 'none', // Critical: html-to-image doesn't like transform during capture
+          left: '0',
+          top: '0',
+          margin: '0',
+          position: 'static', // Change from relative
+        }
+      }
+
+      // Temporarily reset transform for consistent high-res capture
+      target.style.transform = 'none'
+      target.style.position = 'static'
+
+      const dataUrl = await toPng(target, options)
+      const response = await fetch(dataUrl)
+      const blob = await response.blob()
+      const objectUrl = URL.createObjectURL(blob)
+
       const fileName = `Samagam_DP${name ? `_${name.replace(/ /g, '_')}` : ''}`
       const link = document.createElement('a')
       link.download = `${fileName}.png`
-      link.href = dataUrl
+      link.href = objectUrl
+      document.body.appendChild(link)
       link.click()
+      document.body.removeChild(link)
+      URL.revokeObjectURL(objectUrl)
+    } catch (err) {
+      console.error('Export failed:', err)
+      alert('Failed to generate image. Please try again or take a screenshot.')
     } finally {
+      target.style.transform = originalTransform
+      target.style.position = originalPosition
       setIsExporting(false)
     }
   }
@@ -293,7 +330,7 @@ export function SamagamPic() {
               }}>
                 <div ref={canvasRef} style={{
                   width: DP_SIZE, height: DP_SIZE, borderRadius: '50%', position: 'relative', overflow: 'hidden',
-                  background: 'url("/images/BG.png")',
+                  backgroundImage: 'url("/images/BG.png")',
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                 }}>
@@ -316,7 +353,12 @@ export function SamagamPic() {
                         boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
                       }}>
                         {croppedPhoto ? (
-                          <img src={croppedPhoto} alt="photo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          <img
+                            src={croppedPhoto}
+                            alt="photo"
+                            crossOrigin="anonymous"
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                          />
                         ) : (
                           <div style={{
                             width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',
